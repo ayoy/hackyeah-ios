@@ -13,7 +13,15 @@ struct BeaconData: Hashable, Equatable {
     let proximityUUID: UUID
     let major: NSNumber
     let minor: NSNumber
-    var timestamp: Date
+    private var _timestamp: Date? = nil
+    var timestamp: Date {
+        get {
+            return _timestamp ?? Date()
+        }
+        set {
+            _timestamp = newValue
+        }
+    }
     
     mutating func updateTimestamp(_ timestamp: Date) {
         self.timestamp = timestamp
@@ -25,14 +33,14 @@ struct BeaconData: Hashable, Equatable {
 
     static let knownBeacons: Set<BeaconData> = [.BC1, .BC2, .BC3]
 
-    private init(proximityUUID: UUID, major: NSNumber, minor: NSNumber, timestamp: Date = Date()) {
+    private init(proximityUUID: UUID, major: NSNumber, minor: NSNumber, timestamp: Date? = nil) {
         self.proximityUUID = proximityUUID
         self.major = major
         self.minor = minor
-        self.timestamp = timestamp
+        _timestamp = timestamp
     }
     
-    init(beacon: CLBeacon, timestamp: Date = Date()) {
+    init(beacon: CLBeacon, timestamp: Date? = nil) {
         self.init(proximityUUID: beacon.proximityUUID,
                   major: beacon.major,
                   minor: beacon.minor,
@@ -63,6 +71,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.delegate = self
+        manager.activityType = .fitness
         manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         manager.allowsBackgroundLocationUpdates = true
         manager.pausesLocationUpdatesAutomatically = true
