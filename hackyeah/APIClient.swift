@@ -34,12 +34,29 @@ class APIClient: NSObject {
     private(set) var currentTeamID: Int64? = nil
     private(set) var currentUserID: Int64? = nil
     
+    override init() {
+        if let teamID = UserDefaults.standard.value(forKey: "teamID") as? NSNumber {
+            currentTeamID = teamID.int64Value
+            currentUserID = 1
+        }
+    }
+    
     func logIn(teamID: Int64, userID: Int64, completionHandler: ((Bool) -> Void)) {
         currentTeamID = teamID
         currentUserID = userID
+        UserDefaults.standard.set(NSNumber(value: teamID), forKey: "teamID")
+        UserDefaults.standard.synchronize()
         completionHandler(true)
     }
-    
+
+    func logOut(completionHandler: ((Bool) -> Void)) {
+        currentTeamID = nil
+        currentUserID = nil
+        UserDefaults.standard.removeObject(forKey: "teamID")
+        UserDefaults.standard.synchronize()
+        completionHandler(true)
+    }
+
     func update(latitude: Double, longitude: Double, beacons: [BeaconData]) {
         guard let userID = currentUserID, let teamID = currentTeamID else { return }
         let urlString = "https://yjpcjabyax.localtunnel.me//api/ctf/pos/\(teamID)/\(userID)"
@@ -52,10 +69,10 @@ class APIClient: NSObject {
         
             request.httpBody = try JSONSerialization.data(withJSONObject: dict, options: [])
             let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
-                if let responseData = data {
-                    let responseJSON = try! JSONSerialization.jsonObject(with: responseData, options: [])
-                    NSLog("response: \(responseJSON)")
-                }
+//                if let responseData = data {
+//                    let responseJSON = try! JSONSerialization.jsonObject(with: responseData, options: [])
+//                    NSLog("response: \(responseJSON)")
+//                }
             }
             NSLog("\(urlString): \(request.httpBody!)")
             task.resume()

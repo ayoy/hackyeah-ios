@@ -59,6 +59,15 @@ class ViewController: UICollectionViewController {
             performSegue(withIdentifier: "showLogin", sender: nil)
         }
     }
+    
+    override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
+        if motion == .motionShake {
+            APIClient.shared.logOut { (success) in
+                self.performSegue(withIdentifier: "showLogin", sender: nil)
+                BeaconService.shared.stopMonitoringForBeacons()
+            }
+        }
+    }
 
     // MARK: - UICollectionViewDataSource
     

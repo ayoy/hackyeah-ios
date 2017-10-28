@@ -104,6 +104,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
             locationManager.stopMonitoring(for: beaconRegion)
             isMonitoringForBeacons = false
             NSLog("Stopped monitoring for beacons")
+            beaconsInRange.removeAll()
         }
     }
     
