@@ -5,6 +5,7 @@
     </device>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13174"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -82,11 +83,62 @@
                     </collectionView>
                     <connections>
                         <outlet property="collectionView" destination="avB-zk-58T" id="8Oq-fW-GEY"/>
+                        <segue destination="59S-2t-u4V" kind="presentation" identifier="showLogin" modalPresentationStyle="fullScreen" modalTransitionStyle="crossDissolve" id="UcZ-cL-nBE"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="EHF-M2-n0C" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-135.19999999999999" y="59.820089955022496"/>
+        </scene>
+        <!--Login View Controller-->
+        <scene sceneID="k7n-zo-IXV">
+            <objects>
+                <viewController id="59S-2t-u4V" customClass="LoginViewController" customModule="hackyeah" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="aFj-tJ-1Kg">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="60" translatesAutoresizingMaskIntoConstraints="NO" id="l7c-hA-A3a">
+                                <rect key="frame" x="87.5" y="183.5" width="200" height="300"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9a-pj-C4n">
+                                        <rect key="frame" x="0.0" y="0.0" width="200" height="120"/>
+                                        <color key="backgroundColor" red="0.48627450979999998" green="0.71372549019999998" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Team 1"/>
+                                        <connections>
+                                            <action selector="logIn:" destination="59S-2t-u4V" eventType="touchUpInside" id="Acj-Tg-CG6"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFp-xt-kvj">
+                                        <rect key="frame" x="0.0" y="180" width="200" height="120"/>
+                                        <color key="backgroundColor" red="0.48627450979999998" green="0.71372549019999998" blue="0.1176470588" alpha="1" colorSpace="calibratedRGB"/>
+                                        <state key="normal" title="Team 2"/>
+                                        <connections>
+                                            <action selector="logIn:" destination="59S-2t-u4V" eventType="touchUpInside" id="cYR-mY-0s9"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="sCE-ia-ta9"/>
+                                    <constraint firstAttribute="height" constant="300" id="tCQ-2N-Av0"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="l7c-hA-A3a" firstAttribute="centerY" secondItem="aFj-tJ-1Kg" secondAttribute="centerY" id="JZA-uI-1Xc"/>
+                            <constraint firstItem="l7c-hA-A3a" firstAttribute="centerX" secondItem="aFj-tJ-1Kg" secondAttribute="centerX" id="bZU-H2-Jlo"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Gif-MC-Kc2"/>
+                    </view>
+                    <connections>
+                        <outlet property="team1Button" destination="P9a-pj-C4n" id="EFQ-m3-yAJ"/>
+                        <outlet property="team2Button" destination="iFp-xt-kvj" id="W32-ku-FpQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hXU-Pg-OCc" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="712.79999999999995" y="59.820089955022496"/>
         </scene>
     </scenes>
     <resources>

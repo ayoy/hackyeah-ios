@@ -53,7 +53,11 @@ class ViewController: UICollectionViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        collectionView?.reloadData()
+        if APIClient.shared.isUserLoggedIn {
+            BeaconService.shared.startMonitoringForBeacons()
+        } else {
+            performSegue(withIdentifier: "showLogin", sender: nil)
+        }
     }
 
     // MARK: - UICollectionViewDataSource

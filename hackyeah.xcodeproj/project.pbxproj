@@ -14,6 +14,8 @@
 		377BB5241FA4B237005A3A28 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377BB5221FA4B237005A3A28 /* LaunchScreen.storyboard */; };
 		377BB52F1FA4B237005A3A28 /* hackyeahTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377BB52E1FA4B237005A3A28 /* hackyeahTests.swift */; };
 		37D4A7351FA4BB0F006BB1F8 /* BeaconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7341FA4BB0F006BB1F8 /* BeaconService.swift */; };
+		37D4A7371FA4F18C006BB1F8 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7361FA4F18C006BB1F8 /* APIClient.swift */; };
+		37D4A7391FA4F4CD006BB1F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7381FA4F4CD006BB1F8 /* LoginViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +40,8 @@
 		377BB52E1FA4B237005A3A28 /* hackyeahTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackyeahTests.swift; sourceTree = "<group>"; };
 		377BB5301FA4B237005A3A28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		37D4A7341FA4BB0F006BB1F8 /* BeaconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconService.swift; sourceTree = "<group>"; };
+		37D4A7361FA4F18C006BB1F8 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		37D4A7381FA4F4CD006BB1F8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -81,7 +85,9 @@
 			children = (
 				377BB5191FA4B237005A3A28 /* AppDelegate.swift */,
 				377BB51B1FA4B237005A3A28 /* ViewController.swift */,
+				37D4A7381FA4F4CD006BB1F8 /* LoginViewController.swift */,
 				37D4A7341FA4BB0F006BB1F8 /* BeaconService.swift */,
+				37D4A7361FA4F18C006BB1F8 /* APIClient.swift */,
 				377BB51D1FA4B237005A3A28 /* Main.storyboard */,
 				377BB5201FA4B237005A3A28 /* Assets.xcassets */,
 				377BB5221FA4B237005A3A28 /* LaunchScreen.storyboard */,
@@ -205,6 +211,8 @@
 				377BB51C1FA4B237005A3A28 /* ViewController.swift in Sources */,
 				37D4A7351FA4BB0F006BB1F8 /* BeaconService.swift in Sources */,
 				377BB51A1FA4B237005A3A28 /* AppDelegate.swift in Sources */,
+				37D4A7391FA4F4CD006BB1F8 /* LoginViewController.swift in Sources */,
+				37D4A7371FA4F18C006BB1F8 /* APIClient.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
