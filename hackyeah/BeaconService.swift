@@ -77,6 +77,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         manager.pausesLocationUpdatesAutomatically = true
         return manager
     }()
+    private var shouldReportLocationOnNextCallback: Bool = false
     
     var isLocationServicesAuthorized: Bool {
         return CLLocationManager.authorizationStatus() != .denied
@@ -145,6 +146,24 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
         if beaconsInRange != knownRangedBeacons {
             beaconsInRange = knownRangedBeacons
             beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
+
+            if let location = locationManager.location {
+                APIClient.shared.update(latitude: location.coordinate.latitude,
+                                        longitude: location.coordinate.longitude,
+                                        beacons: Array(beaconsInRange))
+            } else {
+                shouldReportLocationOnNextCallback = true
+                locationManager.requestLocation()
+            }
+        }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            APIClient.shared.update(latitude: location.coordinate.latitude,
+                                    longitude: location.coordinate.longitude,
+                                    beacons: Array(beaconsInRange))
+            shouldReportLocationOnNextCallback = false
         }
     }
 }
