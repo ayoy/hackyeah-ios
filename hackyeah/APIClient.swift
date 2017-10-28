@@ -42,8 +42,9 @@ class APIClient: NSObject {
     
     func update(latitude: Double, longitude: Double, beacons: [BeaconData]) {
         guard let userID = currentUserID, let teamID = currentTeamID else { return }
-        let urlString = "https://faf5ea8b.ngrok.io/api/ctf/pos/\(teamID)/\(userID)"
+        let urlString = "https://yjpcjabyax.localtunnel.me//api/ctf/pos/\(teamID)/\(userID)"
         var request: URLRequest = URLRequest(url: URL(string: urlString)!)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let dict: [String:Any] = ["lat": latitude, "lon": longitude, "beacons": beacons.flatMap({$0.name})]
         request.httpMethod = "POST"
         
@@ -56,7 +57,7 @@ class APIClient: NSObject {
                     NSLog("response: \(responseJSON)")
                 }
             }
-            NSLog("\(urlString): \(dict)")
+            NSLog("\(urlString): \(request.httpBody!)")
             task.resume()
 
         } catch (let error) {
