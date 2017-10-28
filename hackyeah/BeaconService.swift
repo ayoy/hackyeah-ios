@@ -13,10 +13,13 @@ struct BeaconData: Hashable, Equatable {
     let proximityUUID: UUID
     let major: NSNumber
     let minor: NSNumber
-    static let knownBeacons: [BeaconData] = [BeaconData(proximityUUID: BeaconService.beaconUUID, major: 53282, minor: 21623),
-                                             BeaconData(proximityUUID: BeaconService.beaconUUID, major: 35794, minor: 15677),
-                                             BeaconData(proximityUUID: BeaconService.beaconUUID, major: 27533, minor: 34855)]
     
+    static let BC1 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 27533, minor: 34855)
+    static let BC2 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 53282, minor: 21623)
+    static let BC3 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 35794, minor: 15677)
+
+    static let knownBeacons: [BeaconData] = [.BC1, .BC2, .BC3]
+
     init(proximityUUID: UUID, major: NSNumber, minor: NSNumber) {
         self.proximityUUID = proximityUUID
         self.major = major
