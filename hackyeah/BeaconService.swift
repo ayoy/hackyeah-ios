@@ -13,21 +13,34 @@ struct BeaconData: Hashable, Equatable {
     let proximityUUID: UUID
     let major: NSNumber
     let minor: NSNumber
+    var timestamp: Date
+    
+    mutating func updateTimestamp(_ timestamp: Date) {
+        self.timestamp = timestamp
+    }
     
     static let BC1 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 27533, minor: 34855)
     static let BC2 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 53282, minor: 21623)
     static let BC3 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 35794, minor: 15677)
 
-    static let knownBeacons: [BeaconData] = [.BC1, .BC2, .BC3]
+    static let knownBeacons: Set<BeaconData> = [.BC1, .BC2, .BC3]
 
-    init(proximityUUID: UUID, major: NSNumber, minor: NSNumber) {
+    private init(proximityUUID: UUID, major: NSNumber, minor: NSNumber, timestamp: Date = Date()) {
         self.proximityUUID = proximityUUID
         self.major = major
         self.minor = minor
+        self.timestamp = timestamp
     }
     
-    init(beacon: CLBeacon) {
-        self.init(proximityUUID: beacon.proximityUUID, major: beacon.major, minor: beacon.minor)
+    init(beacon: CLBeacon, timestamp: Date = Date()) {
+        self.init(proximityUUID: beacon.proximityUUID,
+                  major: beacon.major,
+                  minor: beacon.minor,
+                  timestamp: timestamp)
+    }
+    
+    var isKnown: Bool {
+        return BeaconData.knownBeacons.contains(self)
     }
     
     var hashValue: Int {
@@ -44,6 +57,8 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     static let beaconUUID: UUID = UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!
     
     static let shared = BeaconService()
+    
+    var beaconsInRangeDidChange: (([BeaconData]) -> Void)? = nil
     
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
@@ -85,8 +100,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     let beaconRegionIdentifier = "beaconRegionIdentifier"
     
     lazy var beaconRegion: CLBeaconRegion = {
-        let uuid =  UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!
-        let region = CLBeaconRegion(proximityUUID: uuid, identifier: beaconRegionIdentifier)
+        let region = CLBeaconRegion(proximityUUID: BeaconService.beaconUUID, identifier: beaconRegionIdentifier)
         region.notifyEntryStateOnDisplay = true
         return region
     }()
@@ -115,15 +129,13 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-//        print(#function)
-        let newBeaconsInRange: [BeaconData] = beacons.flatMap { beacon in
-            let beaconData = BeaconData(beacon: beacon)
-            if !beaconsInRange.contains(beaconData) {
-                NSLog("found new beacon, major: \(beacon.major), minor: \(beacon.minor)")
-                return beaconData
-            }
-            return nil
+        
+        let rangedBeaconsData: [BeaconData] = beacons.map { return BeaconData(beacon: $0) }
+        let knownRangedBeacons: Set<BeaconData> = BeaconData.knownBeacons.intersection(rangedBeaconsData)
+        
+        if beaconsInRange != knownRangedBeacons {
+            beaconsInRange = knownRangedBeacons
+            beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
         }
-        beaconsInRange.formUnion(newBeaconsInRange)
     }
 }

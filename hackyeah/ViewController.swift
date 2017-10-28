@@ -13,6 +13,21 @@ import CoreLocation
 class Cell: UICollectionViewCell {
 }
 
+extension BeaconData {
+    var cellIdentifier: String {
+        if self == .BC1 {
+            return "bc1"
+        }
+        if self == .BC2 {
+            return "bc2"
+        }
+        if self == .BC3 {
+            return "bc3"
+        }
+        return ""
+    }
+}
+
 class ViewController: UICollectionViewController {
 
     override func viewDidLoad() {
@@ -25,7 +40,16 @@ class ViewController: UICollectionViewController {
         layout.minimumInteritemSpacing = 20
         layout.minimumLineSpacing = 20
         collectionView?.collectionViewLayout = layout
+        
+        BeaconService.shared.beaconsInRangeDidChange = { beacons in
+            DispatchQueue.main.async {
+                self.beacons = beacons
+                self.collectionView?.reloadData()
+            }
+        }
     }
+    
+    private var beacons: [BeaconData] = []
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -35,25 +59,17 @@ class ViewController: UICollectionViewController {
     // MARK: - UICollectionViewDataSource
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return beacons.count
     }
     
     override func collectionView(_ collectionView: UICollectionView,
                                  cellForItemAt indexPath: IndexPath) -> UICollectionViewCell
     {
-        let identifier: String = {
-            switch indexPath.row {
-            case 0:
-                return "bc1"
-            case 1:
-                return "bc2"
-            case 2:
-                return "bc3"
-            default:
-                return ""
-            }
-        }()
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier, for: indexPath)
+        let beacon = beacons[indexPath.row]
+        let identifier = beacon.cellIdentifier
+
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: identifier,
+                                                      for: indexPath)
         return cell
     }
 }
