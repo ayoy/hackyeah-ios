@@ -71,10 +71,10 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.delegate = self
-        manager.activityType = .fitness
-        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+//        manager.activityType = .fitness
+//        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
         manager.allowsBackgroundLocationUpdates = true
-        manager.pausesLocationUpdatesAutomatically = true
+//        manager.pausesLocationUpdatesAutomatically = true
         return manager
     }()
     private var shouldReportLocationOnNextCallback: Bool = false

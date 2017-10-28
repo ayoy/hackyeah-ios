@@ -23,7 +23,7 @@ extension BeaconData {
     }
 }
 
-class APIClient: NSObject {
+class APIClient: NSObject, URLSessionDelegate {
     
     static let shared = APIClient()
     
@@ -59,7 +59,7 @@ class APIClient: NSObject {
 
     func update(latitude: Double, longitude: Double, beacons: [BeaconData]) {
         guard let userID = currentUserID, let teamID = currentTeamID else { return }
-        let urlString = "https://yjpcjabyax.localtunnel.me//api/ctf/pos/\(teamID)/\(userID)"
+        let urlString = "https://michalgalka.pl:5000/api/ctf/pos/\(teamID)/\(userID)"
         var request: URLRequest = URLRequest(url: URL(string: urlString)!)
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
         let dict: [String:Any] = ["lat": latitude, "lon": longitude, "beacons": beacons.flatMap({$0.name})]
@@ -68,7 +68,7 @@ class APIClient: NSObject {
         do {
         
             request.httpBody = try JSONSerialization.data(withJSONObject: dict, options: [])
-            let task = URLSession.shared.dataTask(with: request) { (data, response, error) in
+            let task = urlSession.dataTask(with: request) { (data, response, error) in
 //                if let responseData = data {
 //                    let responseJSON = try! JSONSerialization.jsonObject(with: responseData, options: [])
 //                    NSLog("response: \(responseJSON)")
@@ -82,4 +82,39 @@ class APIClient: NSObject {
         }
         
     }
+    
+    // MARK: - URLSession
+    
+    private lazy var urlSession: URLSession = {
+        let configuration = URLSessionConfiguration.default
+        return URLSession(configuration: configuration,
+                          delegate: self,
+                          delegateQueue: workerQueue)
+    }()
+    
+    private let workerQueue = OperationQueue()
+    
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
+    {
+        if challenge.protectionSpace.authenticationMethod == NSURLAuthenticationMethodServerTrust {
+            if challenge.protectionSpace.host == "michalgalka.pl" {
+                
+                if let certFile = Bundle.main.path(forResource: "cert", ofType: "der"),
+                    let data = try? Data(contentsOf: URL(fileURLWithPath: certFile)),
+                    let cert = SecCertificateCreateWithData(nil, data as CFData),
+                    let trust = challenge.protectionSpace.serverTrust
+                {
+                    SecTrustSetAnchorCertificates(trust, [cert] as CFArray)
+                    completionHandler(.useCredential, URLCredential(trust: trust))
+                } else {
+                    completionHandler(.cancelAuthenticationChallenge, nil)
+                }
+            } else {
+                completionHandler(.performDefaultHandling, nil)
+            }
+        }
+    }
+
 }

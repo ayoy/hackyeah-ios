@@ -60,6 +60,10 @@ class ViewController: UICollectionViewController {
         }
     }
     
+    override func becomeFirstResponder() -> Bool {
+        return true
+    }
+    
     override func motionEnded(_ motion: UIEventSubtype, with event: UIEvent?) {
         if motion == .motionShake {
             APIClient.shared.logOut { (success) in
@@ -67,6 +71,11 @@ class ViewController: UICollectionViewController {
                 BeaconService.shared.stopMonitoringForBeacons()
             }
         }
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        beacons = []
+        collectionView?.reloadData()
     }
 
     // MARK: - UICollectionViewDataSource
