@@ -70,9 +70,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
     var beaconsInRangeDidChange: (([BeaconData]) -> Void)? = nil
 
     private lazy var monitoringManagers: [ESTMonitoringV2Manager] = {
-        var managers: [ESTMonitoringV2Manager] = [ESTMonitoringV2Manager(desiredMeanTriggerDistance: 5, delegate: self),
-                                                  ESTMonitoringV2Manager(desiredMeanTriggerDistance: 5, delegate: self),
-                                                  ESTMonitoringV2Manager(desiredMeanTriggerDistance: 5, delegate: self)]
+        var managers: [ESTMonitoringV2Manager] = [ESTMonitoringV2Manager(desiredMeanTriggerDistance: 2, delegate: self),
+                                                  ESTMonitoringV2Manager(desiredMeanTriggerDistance: 2, delegate: self),
+                                                  ESTMonitoringV2Manager(desiredMeanTriggerDistance: 2, delegate: self)]
         return managers
     }()
 
@@ -150,7 +150,7 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
                            forBeaconWithIdentifier identifier: String)
     {
         NSLog(#function)
-        if let beaconData = BeaconData.beaconWithIdentifier(identifier) {
+        if let beaconData = BeaconData.beaconWithIdentifier(identifier), state == .insideZone {
             beaconsInRange.insert(beaconData)
             beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
 
