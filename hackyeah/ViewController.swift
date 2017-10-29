@@ -56,9 +56,9 @@ class ViewController: UICollectionViewController {
         if let teamID = APIClient.shared.currentTeamID {
             switch teamID {
             case 1:
-                collectionView?.backgroundColor = UIColor.team1.withAlphaComponent(0.3)
+                collectionView?.backgroundColor = UIColor.team1bg
             case 2:
-                collectionView?.backgroundColor = UIColor.team2.withAlphaComponent(0.3)
+                collectionView?.backgroundColor = UIColor.team2bg
             default:
                 collectionView?.backgroundColor = UIColor.white
             }

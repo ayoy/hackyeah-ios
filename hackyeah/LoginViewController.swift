@@ -11,6 +11,8 @@ import UIKit
 extension UIColor {
     static let team1 = UIColor(red: 127/255, green: 219/255, blue: 255/255, alpha: 1)
     static let team2 = UIColor(red: 255/255, green: 65/255, blue: 54/255, alpha: 1)
+    static let team1bg = UIColor(red: 172/255, green: 229/255, blue: 251/255, alpha: 1)
+    static let team2bg = UIColor(red: 255/255, green: 186/255, blue: 182/255, alpha: 1)
 }
 
 class LoginViewController: UIViewController {
