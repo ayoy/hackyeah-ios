@@ -10,9 +10,7 @@ import UIKit
 import CoreLocation
 
 struct BeaconData: Hashable, Equatable {
-    let proximityUUID: UUID
-    let major: NSNumber
-    let minor: NSNumber
+    let identifier: String
     private var _timestamp: Date? = nil
     var timestamp: Date {
         get {
@@ -27,24 +25,28 @@ struct BeaconData: Hashable, Equatable {
         self.timestamp = timestamp
     }
     
-    static let BC1 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 27533, minor: 34855)
-    static let BC2 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 53282, minor: 21623)
-    static let BC3 = BeaconData(proximityUUID: BeaconService.beaconUUID, major: 35794, minor: 15677)
+    static let BC1 = BeaconData(identifier: "7ff1752bc73be3237a6fdc8b4b15c02a")
+    static let BC2 = BeaconData(identifier: "de7f8aa2183f82116423bcb664df7a21")
+    static let BC3 = BeaconData(identifier: "ef99356ca428da700526f00ba8be7e1f")
 
     static let knownBeacons: Set<BeaconData> = [.BC1, .BC2, .BC3]
 
-    private init(proximityUUID: UUID, major: NSNumber, minor: NSNumber, timestamp: Date? = nil) {
-        self.proximityUUID = proximityUUID
-        self.major = major
-        self.minor = minor
+    private init(identifier: String, timestamp: Date? = nil) {
+        self.identifier = identifier
         _timestamp = timestamp
     }
     
-    init(beacon: CLBeacon, timestamp: Date? = nil) {
-        self.init(proximityUUID: beacon.proximityUUID,
-                  major: beacon.major,
-                  minor: beacon.minor,
-                  timestamp: timestamp)
+    static func beaconWithIdentifier(_ identifier: String) -> BeaconData? {
+        switch identifier {
+        case BeaconData.BC1.identifier:
+            return .BC1
+        case BeaconData.BC2.identifier:
+            return .BC2
+        case BeaconData.BC3.identifier:
+            return .BC3
+        default:
+            return nil
+        }
     }
     
     var isKnown: Bool {
@@ -52,45 +54,51 @@ struct BeaconData: Hashable, Equatable {
     }
     
     var hashValue: Int {
-        return proximityUUID.hashValue ^ major.hashValue ^ minor.hashValue
+        return identifier.hashValue
     }
     
     static func ==(lhs: BeaconData, rhs: BeaconData) -> Bool {
-        return lhs.proximityUUID == rhs.proximityUUID && lhs.major == rhs.major && lhs.minor == rhs.minor
+        return lhs.identifier == rhs.identifier
     }
 }
 
-class BeaconService: NSObject, CLLocationManagerDelegate {
-    
-    static let beaconUUID: UUID = UUID(uuidString: "B9407F30-F5F8-466E-AFF9-25556B57FE6D")!
+class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2ManagerDelegate {
     
     static let shared = BeaconService()
     
     var beaconsInRangeDidChange: (([BeaconData]) -> Void)? = nil
-    
+
+    private lazy var monitoringManager: ESTMonitoringV2Manager = {
+        let manager = ESTMonitoringV2Manager(desiredMeanTriggerDistance: 1, delegate: self)
+        return manager
+    }()
+
     private lazy var locationManager: CLLocationManager = {
         let manager = CLLocationManager()
         manager.delegate = self
-//        manager.activityType = .fitness
-//        manager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
+        manager.activityType = .fitness
+        manager.desiredAccuracy = kCLLocationAccuracyBest
         manager.allowsBackgroundLocationUpdates = true
-//        manager.pausesLocationUpdatesAutomatically = true
+        manager.pausesLocationUpdatesAutomatically = true
         return manager
     }()
-    private var shouldReportLocationOnNextCallback: Bool = false
     
     var isLocationServicesAuthorized: Bool {
         return CLLocationManager.authorizationStatus() != .denied
     }
     
     private(set) var isMonitoringForBeacons: Bool = false
-    
+    private var beaconsInRange: Set<BeaconData> = []
+    private var lastKnownLocation: CLLocation? = nil
+
     func startMonitoringForBeacons() {
         NSLog("startMonitoringForBeacons")
         if !isMonitoringForBeacons {
+            monitoringManager.startMonitoring(forIdentifiers: BeaconData.knownBeacons.map({$0.identifier}))
             locationManager.requestAlwaysAuthorization()
-            locationManager.startMonitoringSignificantLocationChanges()
-            locationManager.startMonitoring(for: beaconRegion)
+//            locationManager.startMonitoringSignificantLocationChanges()
+            locationManager.startUpdatingLocation()
+//            locationManager.startMonitoring(for: beaconRegion)
             isMonitoringForBeacons = true
             NSLog("Started monitoring for beacons")
         }
@@ -99,61 +107,71 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     func stopMonitoringForBeacons() {
         NSLog("stopMonitoringForBeacons")
         if isMonitoringForBeacons {
-            locationManager.stopMonitoringSignificantLocationChanges()
-            locationManager.stopRangingBeacons(in: beaconRegion)
-            locationManager.stopMonitoring(for: beaconRegion)
+            monitoringManager.stopMonitoring()
+//            locationManager.stopMonitoringSignificantLocationChanges()
+//            locationManager.stopRangingBeacons(in: beaconRegion)
+            locationManager.stopUpdatingLocation()
+//            locationManager.stopMonitoring(for: beaconRegion)
             isMonitoringForBeacons = false
             NSLog("Stopped monitoring for beacons")
             beaconsInRange.removeAll()
         }
     }
     
-    let beaconRegionIdentifier = "beaconRegionIdentifier"
+    // MARK: - ESTMonitoringV2ManagerDelegate
     
-    lazy var beaconRegion: CLBeaconRegion = {
-        let region = CLBeaconRegion(proximityUUID: BeaconService.beaconUUID, identifier: beaconRegionIdentifier)
-        region.notifyEntryStateOnDisplay = true
-        return region
-    }()
-    
-    private var beaconsInRange: Set<BeaconData> = []
-    
-    // MARK: - CLLocationManagerDelegate
-    
-    func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
-        print(#function)
-        manager.requestState(for: region)
+    func monitoringManagerDidStart(_ manager: ESTMonitoringV2Manager) {
+        NSLog(#function)
     }
     
-    func locationManager(_ manager: CLLocationManager, didDetermineState state: CLRegionState, for region: CLRegion) {
-        switch state {
-        case .inside:
-            manager.startRangingBeacons(in: beaconRegion)
-            NSLog("Now ranging beacons with UUID: \(BeaconService.beaconUUID)")
-        default:
-            manager.stopRangingBeacons(in: beaconRegion)
-        }
+    func monitoringManager(_ manager: ESTMonitoringV2Manager, didFailWithError error: Error) {
     }
     
-    func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
-        print(#function)
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didRangeBeacons beacons: [CLBeacon], in region: CLBeaconRegion) {
-        
-        let rangedBeaconsData: [BeaconData] = beacons.map { return BeaconData(beacon: $0) }
-        let knownRangedBeacons: Set<BeaconData> = BeaconData.knownBeacons.intersection(rangedBeaconsData)
-        
-        if beaconsInRange != knownRangedBeacons {
-            beaconsInRange = knownRangedBeacons
+    func monitoringManager(_ manager: ESTMonitoringV2Manager,
+                           didDetermineInitialState state: ESTMonitoringState,
+                           forBeaconWithIdentifier identifier: String)
+    {
+        NSLog(#function)
+        if let beaconData = BeaconData.beaconWithIdentifier(identifier) {
+            beaconsInRange.insert(beaconData)
             beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
-
-            if let location = locationManager.location {
+            if let location = lastKnownLocation {
                 APIClient.shared.update(latitude: location.coordinate.latitude,
                                         longitude: location.coordinate.longitude,
                                         beacons: Array(beaconsInRange))
             } else {
-                shouldReportLocationOnNextCallback = true
+                locationManager.requestLocation()
+            }
+        }
+    }
+    
+    func monitoringManager(_ manager: ESTMonitoringV2Manager, didEnterDesiredRangeOfBeaconWithIdentifier identifier: String)
+    {
+        NSLog(#function)
+        if let beaconData = BeaconData.beaconWithIdentifier(identifier) {
+            beaconsInRange.insert(beaconData)
+            beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
+            if let location = lastKnownLocation {
+                APIClient.shared.update(latitude: location.coordinate.latitude,
+                                        longitude: location.coordinate.longitude,
+                                        beacons: Array(beaconsInRange))
+            } else {
+                locationManager.requestLocation()
+            }
+        }
+    }
+    
+    func monitoringManager(_ manager: ESTMonitoringV2Manager, didExitDesiredRangeOfBeaconWithIdentifier identifier: String)
+    {
+        NSLog(#function)
+        if let beaconData = BeaconData.beaconWithIdentifier(identifier) {
+            beaconsInRange.remove(beaconData)
+            beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
+            if let location = lastKnownLocation {
+                APIClient.shared.update(latitude: location.coordinate.latitude,
+                                        longitude: location.coordinate.longitude,
+                                        beacons: Array(beaconsInRange))
+            } else {
                 locationManager.requestLocation()
             }
         }
@@ -161,10 +179,25 @@ class BeaconService: NSObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
-            APIClient.shared.update(latitude: location.coordinate.latitude,
-                                    longitude: location.coordinate.longitude,
-                                    beacons: Array(beaconsInRange))
-            shouldReportLocationOnNextCallback = false
+
+            var lastKnownLocationDidChange = false
+            if lastKnownLocation == nil {
+                lastKnownLocationDidChange = true
+                lastKnownLocation = location
+            } else if let lastLocation = lastKnownLocation, location.distance(from: lastLocation) >= 3 {
+                lastKnownLocationDidChange = true
+                lastKnownLocation = location
+            }
+
+            if lastKnownLocationDidChange {
+                APIClient.shared.update(latitude: location.coordinate.latitude,
+                                        longitude: location.coordinate.longitude,
+                                        beacons: Array(beaconsInRange))
+            }
         }
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        NSLog("\(#function) \(error)")
     }
 }

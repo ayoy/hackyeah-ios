@@ -69,12 +69,16 @@ class APIClient: NSObject, URLSessionDelegate {
         
             request.httpBody = try JSONSerialization.data(withJSONObject: dict, options: [])
             let task = urlSession.dataTask(with: request) { (data, response, error) in
-//                if let responseData = data {
-//                    let responseJSON = try! JSONSerialization.jsonObject(with: responseData, options: [])
-//                    NSLog("response: \(responseJSON)")
-//                }
+                if let responseData = data {
+                    do {
+                        let responseJSON = try JSONSerialization.jsonObject(with: responseData, options: [])
+                        NSLog("response: \(responseJSON)")
+                    } catch (let error) {
+                        NSLog("JSON serialization error: \(error)")
+                    }
+                }
             }
-            NSLog("\(urlString): \(request.httpBody!)")
+            NSLog("\(urlString): \(dict)")
             task.resume()
 
         } catch (let error) {

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		30CF32A4F76AC1A456CA46AA /* Pods_hackyeah.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 62853DF3B9A151C89BDB5942 /* Pods_hackyeah.framework */; };
 		3721DFFB1FA52B720026DCE2 /* cert.der in Resources */ = {isa = PBXBuildFile; fileRef = 3721DFFA1FA52B720026DCE2 /* cert.der */; };
 		377BB51A1FA4B237005A3A28 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377BB5191FA4B237005A3A28 /* AppDelegate.swift */; };
 		377BB51C1FA4B237005A3A28 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377BB51B1FA4B237005A3A28 /* ViewController.swift */; };
@@ -17,6 +18,7 @@
 		37D4A7351FA4BB0F006BB1F8 /* BeaconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7341FA4BB0F006BB1F8 /* BeaconService.swift */; };
 		37D4A7371FA4F18C006BB1F8 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7361FA4F18C006BB1F8 /* APIClient.swift */; };
 		37D4A7391FA4F4CD006BB1F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7381FA4F4CD006BB1F8 /* LoginViewController.swift */; };
+		AA4B26A25948DD8925B568E3 /* Pods_hackyeahTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BFC70C9EAACD1B463732E942 /* Pods_hackyeahTests.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0E9D094C547831D6641217F7 /* Pods-hackyeah.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackyeah.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackyeah/Pods-hackyeah.debug.xcconfig"; sourceTree = "<group>"; };
 		3721DFFA1FA52B720026DCE2 /* cert.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = cert.der; sourceTree = "<group>"; };
 		377BB5161FA4B237005A3A28 /* hackyeah.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = hackyeah.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		377BB5191FA4B237005A3A28 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -41,9 +44,15 @@
 		377BB52A1FA4B237005A3A28 /* hackyeahTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = hackyeahTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		377BB52E1FA4B237005A3A28 /* hackyeahTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackyeahTests.swift; sourceTree = "<group>"; };
 		377BB5301FA4B237005A3A28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		377FB0041FA5D8E600FD8704 /* hackyeah-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hackyeah-Bridging-Header.h"; sourceTree = "<group>"; };
 		37D4A7341FA4BB0F006BB1F8 /* BeaconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconService.swift; sourceTree = "<group>"; };
 		37D4A7361FA4F18C006BB1F8 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		37D4A7381FA4F4CD006BB1F8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		62853DF3B9A151C89BDB5942 /* Pods_hackyeah.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hackyeah.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9EC4C013310FC324D5616E73 /* Pods-hackyeah.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackyeah.release.xcconfig"; path = "Pods/Target Support Files/Pods-hackyeah/Pods-hackyeah.release.xcconfig"; sourceTree = "<group>"; };
+		BFC70C9EAACD1B463732E942 /* Pods_hackyeahTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_hackyeahTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C0D14EAC1CEDC4BD3EDDF9A7 /* Pods-hackyeahTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackyeahTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-hackyeahTests/Pods-hackyeahTests.release.xcconfig"; sourceTree = "<group>"; };
+		E2F7191342B6F4BDD7321F6F /* Pods-hackyeahTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-hackyeahTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-hackyeahTests/Pods-hackyeahTests.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +60,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				30CF32A4F76AC1A456CA46AA /* Pods_hackyeah.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +68,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4B26A25948DD8925B568E3 /* Pods_hackyeahTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +81,8 @@
 				377BB5181FA4B237005A3A28 /* hackyeah */,
 				377BB52D1FA4B237005A3A28 /* hackyeahTests */,
 				377BB5171FA4B237005A3A28 /* Products */,
+				451847A0190889FC45D42136 /* Pods */,
+				A652CEC237CE918F6C9F7322 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +108,7 @@
 				377BB5221FA4B237005A3A28 /* LaunchScreen.storyboard */,
 				377BB5251FA4B237005A3A28 /* Info.plist */,
 				3721DFFA1FA52B720026DCE2 /* cert.der */,
+				377FB0041FA5D8E600FD8704 /* hackyeah-Bridging-Header.h */,
 			);
 			path = hackyeah;
 			sourceTree = "<group>";
@@ -108,6 +122,26 @@
 			path = hackyeahTests;
 			sourceTree = "<group>";
 		};
+		451847A0190889FC45D42136 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				0E9D094C547831D6641217F7 /* Pods-hackyeah.debug.xcconfig */,
+				9EC4C013310FC324D5616E73 /* Pods-hackyeah.release.xcconfig */,
+				E2F7191342B6F4BDD7321F6F /* Pods-hackyeahTests.debug.xcconfig */,
+				C0D14EAC1CEDC4BD3EDDF9A7 /* Pods-hackyeahTests.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		A652CEC237CE918F6C9F7322 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				62853DF3B9A151C89BDB5942 /* Pods_hackyeah.framework */,
+				BFC70C9EAACD1B463732E942 /* Pods_hackyeahTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -115,9 +149,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 377BB5331FA4B237005A3A28 /* Build configuration list for PBXNativeTarget "hackyeah" */;
 			buildPhases = (
+				65B322A2F5ABA87ED7F0F007 /* [CP] Check Pods Manifest.lock */,
 				377BB5121FA4B237005A3A28 /* Sources */,
 				377BB5131FA4B237005A3A28 /* Frameworks */,
 				377BB5141FA4B237005A3A28 /* Resources */,
+				CCD23717C9CBC0D6D93E845E /* [CP] Embed Pods Frameworks */,
+				8D0C99CADDFFE2BD58F2B9A2 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -132,9 +169,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 377BB5361FA4B237005A3A28 /* Build configuration list for PBXNativeTarget "hackyeahTests" */;
 			buildPhases = (
+				2B398912377BB72353BD4F3B /* [CP] Check Pods Manifest.lock */,
 				377BB5261FA4B237005A3A28 /* Sources */,
 				377BB5271FA4B237005A3A28 /* Frameworks */,
 				377BB5281FA4B237005A3A28 /* Resources */,
+				04C1BAC1B8E0AE8D728A625A /* [CP] Embed Pods Frameworks */,
+				71DD3265FFF128B9A82966D9 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -206,6 +246,105 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		04C1BAC1B8E0AE8D728A625A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackyeahTests/Pods-hackyeahTests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		2B398912377BB72353BD4F3B /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hackyeahTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		65B322A2F5ABA87ED7F0F007 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-hackyeah-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		71DD3265FFF128B9A82966D9 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackyeahTests/Pods-hackyeahTests-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		8D0C99CADDFFE2BD58F2B9A2 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackyeah/Pods-hackyeah-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		CCD23717C9CBC0D6D93E845E /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-hackyeah/Pods-hackyeah-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		377BB5121FA4B237005A3A28 /* Sources */ = {
@@ -367,6 +506,7 @@
 		};
 		377BB5341FA4B237005A3A28 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0E9D094C547831D6641217F7 /* Pods-hackyeah.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -375,6 +515,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thickmug.hackyeah;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "hackyeah/hackyeah-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -382,6 +523,7 @@
 		};
 		377BB5351FA4B237005A3A28 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 9EC4C013310FC324D5616E73 /* Pods-hackyeah.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -390,6 +532,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.thickmug.hackyeah;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "hackyeah/hackyeah-Bridging-Header.h";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -397,6 +540,7 @@
 		};
 		377BB5371FA4B237005A3A28 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E2F7191342B6F4BDD7321F6F /* Pods-hackyeahTests.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -414,6 +558,7 @@
 		};
 		377BB5381FA4B237005A3A28 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = C0D14EAC1CEDC4BD3EDDF9A7 /* Pods-hackyeahTests.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
