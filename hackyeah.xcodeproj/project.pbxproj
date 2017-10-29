@@ -15,6 +15,8 @@
 		377BB5211FA4B237005A3A28 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 377BB5201FA4B237005A3A28 /* Assets.xcassets */; };
 		377BB5241FA4B237005A3A28 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 377BB5221FA4B237005A3A28 /* LaunchScreen.storyboard */; };
 		377BB52F1FA4B237005A3A28 /* hackyeahTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 377BB52E1FA4B237005A3A28 /* hackyeahTests.swift */; };
+		378F50ED1FA5E79D005FD764 /* out.wav in Resources */ = {isa = PBXBuildFile; fileRef = 378F50EB1FA5E79D005FD764 /* out.wav */; };
+		378F50EE1FA5E79D005FD764 /* in.wav in Resources */ = {isa = PBXBuildFile; fileRef = 378F50EC1FA5E79D005FD764 /* in.wav */; };
 		37D4A7351FA4BB0F006BB1F8 /* BeaconService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7341FA4BB0F006BB1F8 /* BeaconService.swift */; };
 		37D4A7371FA4F18C006BB1F8 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7361FA4F18C006BB1F8 /* APIClient.swift */; };
 		37D4A7391FA4F4CD006BB1F8 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37D4A7381FA4F4CD006BB1F8 /* LoginViewController.swift */; };
@@ -45,6 +47,8 @@
 		377BB52E1FA4B237005A3A28 /* hackyeahTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = hackyeahTests.swift; sourceTree = "<group>"; };
 		377BB5301FA4B237005A3A28 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		377FB0041FA5D8E600FD8704 /* hackyeah-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "hackyeah-Bridging-Header.h"; sourceTree = "<group>"; };
+		378F50EB1FA5E79D005FD764 /* out.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = out.wav; sourceTree = "<group>"; };
+		378F50EC1FA5E79D005FD764 /* in.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = in.wav; sourceTree = "<group>"; };
 		37D4A7341FA4BB0F006BB1F8 /* BeaconService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BeaconService.swift; sourceTree = "<group>"; };
 		37D4A7361FA4F18C006BB1F8 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		37D4A7381FA4F4CD006BB1F8 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +112,8 @@
 				377BB5221FA4B237005A3A28 /* LaunchScreen.storyboard */,
 				377BB5251FA4B237005A3A28 /* Info.plist */,
 				3721DFFA1FA52B720026DCE2 /* cert.der */,
+				378F50EC1FA5E79D005FD764 /* in.wav */,
+				378F50EB1FA5E79D005FD764 /* out.wav */,
 				377FB0041FA5D8E600FD8704 /* hackyeah-Bridging-Header.h */,
 			);
 			path = hackyeah;
@@ -231,8 +237,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				378F50ED1FA5E79D005FD764 /* out.wav in Resources */,
 				377BB5241FA4B237005A3A28 /* LaunchScreen.storyboard in Resources */,
 				377BB5211FA4B237005A3A28 /* Assets.xcassets in Resources */,
+				378F50EE1FA5E79D005FD764 /* in.wav in Resources */,
 				377BB51F1FA4B237005A3A28 /* Main.storyboard in Resources */,
 				3721DFFB1FA52B720026DCE2 /* cert.der in Resources */,
 			);

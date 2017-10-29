@@ -51,6 +51,20 @@ class ViewController: UICollectionViewController {
     
     private var beacons: [BeaconData] = []
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if let teamID = APIClient.shared.currentTeamID {
+            switch teamID {
+            case 1:
+                collectionView?.backgroundColor = UIColor.team1.withAlphaComponent(0.3)
+            case 2:
+                collectionView?.backgroundColor = UIColor.team2.withAlphaComponent(0.3)
+            default:
+                collectionView?.backgroundColor = UIColor.white
+            }
+        }
+    }
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         if APIClient.shared.isUserLoggedIn {

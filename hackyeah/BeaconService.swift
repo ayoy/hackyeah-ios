@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreLocation
+import AudioToolbox
 
 struct BeaconData: Hashable, Equatable {
     let identifier: String
@@ -68,9 +69,11 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
     
     var beaconsInRangeDidChange: (([BeaconData]) -> Void)? = nil
 
-    private lazy var monitoringManager: ESTMonitoringV2Manager = {
-        let manager = ESTMonitoringV2Manager(desiredMeanTriggerDistance: 1, delegate: self)
-        return manager
+    private lazy var monitoringManagers: [ESTMonitoringV2Manager] = {
+        var managers: [ESTMonitoringV2Manager] = [ESTMonitoringV2Manager(desiredMeanTriggerDistance: 5, delegate: self),
+                                                  ESTMonitoringV2Manager(desiredMeanTriggerDistance: 5, delegate: self),
+                                                  ESTMonitoringV2Manager(desiredMeanTriggerDistance: 5, delegate: self)]
+        return managers
     }()
 
     private lazy var locationManager: CLLocationManager = {
@@ -94,11 +97,12 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
     func startMonitoringForBeacons() {
         NSLog("startMonitoringForBeacons")
         if !isMonitoringForBeacons {
-            monitoringManager.startMonitoring(forIdentifiers: BeaconData.knownBeacons.map({$0.identifier}))
+            monitoringManagers[0].startMonitoring(forIdentifiers: [BeaconData.BC1.identifier])
+            monitoringManagers[1].startMonitoring(forIdentifiers: [BeaconData.BC2.identifier])
+            monitoringManagers[2].startMonitoring(forIdentifiers: [BeaconData.BC3.identifier])
+
             locationManager.requestAlwaysAuthorization()
-//            locationManager.startMonitoringSignificantLocationChanges()
             locationManager.startUpdatingLocation()
-//            locationManager.startMonitoring(for: beaconRegion)
             isMonitoringForBeacons = true
             NSLog("Started monitoring for beacons")
         }
@@ -107,11 +111,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
     func stopMonitoringForBeacons() {
         NSLog("stopMonitoringForBeacons")
         if isMonitoringForBeacons {
-            monitoringManager.stopMonitoring()
-//            locationManager.stopMonitoringSignificantLocationChanges()
-//            locationManager.stopRangingBeacons(in: beaconRegion)
+            monitoringManagers.forEach { $0.stopMonitoring() }
+
             locationManager.stopUpdatingLocation()
-//            locationManager.stopMonitoring(for: beaconRegion)
             isMonitoringForBeacons = false
             NSLog("Stopped monitoring for beacons")
             beaconsInRange.removeAll()
@@ -126,7 +128,23 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
     
     func monitoringManager(_ manager: ESTMonitoringV2Manager, didFailWithError error: Error) {
     }
-    
+
+    lazy var inSound: SystemSoundID = {
+        var sound: SystemSoundID = 0
+        if let soundURL = Bundle.main.url(forResource: "in", withExtension: "wav") {
+            AudioServicesCreateSystemSoundID(soundURL as CFURL, &sound)
+        }
+        return sound
+    }()
+
+    lazy var outSound: SystemSoundID = {
+        var sound: SystemSoundID = 0
+        if let soundURL = Bundle.main.url(forResource: "out", withExtension: "wav") {
+            AudioServicesCreateSystemSoundID(soundURL as CFURL, &sound)
+        }
+        return sound
+    }()
+
     func monitoringManager(_ manager: ESTMonitoringV2Manager,
                            didDetermineInitialState state: ESTMonitoringState,
                            forBeaconWithIdentifier identifier: String)
@@ -135,6 +153,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
         if let beaconData = BeaconData.beaconWithIdentifier(identifier) {
             beaconsInRange.insert(beaconData)
             beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
+
+            AudioServicesPlaySystemSound(inSound)
+
             if let location = lastKnownLocation {
                 APIClient.shared.update(latitude: location.coordinate.latitude,
                                         longitude: location.coordinate.longitude,
@@ -151,6 +172,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
         if let beaconData = BeaconData.beaconWithIdentifier(identifier) {
             beaconsInRange.insert(beaconData)
             beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
+            
+            AudioServicesPlaySystemSound(inSound)
+            
             if let location = lastKnownLocation {
                 APIClient.shared.update(latitude: location.coordinate.latitude,
                                         longitude: location.coordinate.longitude,
@@ -167,6 +191,9 @@ class BeaconService: NSObject, CLLocationManagerDelegate, ESTMonitoringV2Manager
         if let beaconData = BeaconData.beaconWithIdentifier(identifier) {
             beaconsInRange.remove(beaconData)
             beaconsInRangeDidChange?(beaconsInRange.sorted { $0.timestamp < $1.timestamp })
+
+            AudioServicesPlaySystemSound(outSound)
+            
             if let location = lastKnownLocation {
                 APIClient.shared.update(latitude: location.coordinate.latitude,
                                         longitude: location.coordinate.longitude,
